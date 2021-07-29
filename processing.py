@@ -4,7 +4,7 @@ from copy import deepcopy
 import tensorflow as tf
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 anchors = [[[116,90], [156,198], [373,326]], [[30,61], [62,45], [59,119]], [[10,13], [16,30], [33,23]]]
 
@@ -206,7 +206,7 @@ def do_nms(boxes_, nms_thresh, obj_thresh):
 
     return new_boxes
 
-from PIL import ImageDraw, ImageFont
+from PIL import ImageDraw, ImageFont, Image
 import colorsys
 
 def draw_boxes(image_, boxes, labels, verbose = True):
@@ -277,3 +277,37 @@ def detect_image(image_pil, obj_thresh = 0.4, nms_thresh = 0.45, darknet=darknet
     nms_boxes = do_nms(boxes, nms_thresh, obj_thresh)
   
     return draw_boxes(image_pil, nms_boxes, labels, verbose = False)
+
+def detect_video(video_path, output_path, obj_thresh = 0.4, nms_thresh = 0.45, darknet=darknet, net_h=416, net_w=416, anchors=anchors, labels=labels):
+    vid = cv2.VideoCapture(video_path)
+    if not vid.isOpened():
+        raise IOError("Couldn't open webcam or video")
+    video_FourCC    = int(vid.get(cv2.CAP_PROP_FOURCC))
+    video_FourCC = cv2.VideoWriter_fourcc(*'mp4v')
+    video_fps       = vid.get(cv2.CAP_PROP_FPS)
+    video_size      = (int(vid.get(cv2.CAP_PROP_FRAME_WIDTH)),
+                        int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+    
+    out = cv2.VideoWriter(output_path, video_FourCC, video_fps, video_size)
+
+    num_frame = 0
+    while vid.isOpened():
+      ret, frame = vid.read()
+      num_frame += 1
+      print("=== Frame {} ===".format(num_frame))
+      if ret:
+          ### YOUR CODE HERE
+  
+          image_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
+          new_image = detect_image(image_pil, obj_thresh, nms_thresh, darknet, net_h, net_w, anchors, labels)
+
+          new_frame = cv2.cvtColor(np.asarray(new_image), cv2.COLOR_RGB2BGR)
+
+          ### END CODE          
+          out.write(new_frame)
+      else:
+          break
+    vid.release()
+    out.release()
+    print("New video saved!")

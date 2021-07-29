@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import cv2
-from processing import detect_image
+from processing import detect_image, detect_video
 from PIL import Image
 
 st.set_page_config(layout="wide", page_title="YOLO Demo", initial_sidebar_state="expanded")
@@ -44,10 +44,8 @@ if file_bytes is not None:
 
     stimage_location = st.empty()
 
-    st.spinner(text='Loading...')
     stimage_location.image(image, channels="BGR")
 
     processed_image = detect_image(image_pil, obj_thresh=obj_thresh, nms_thresh=nms_thresh)
 
-    st.spinner(text='Loading...')
     stimage_location.image(processed_image, channels="RGB")
