@@ -4,7 +4,7 @@ This is a Streamlit app to demonstrate the usage of the YOLO v3 network architec
 Make sure to download the weights for the YOLO v3 model [here](https://drive.google.com/uc?export=download&id=1badlpEN1SHcDGcpylGikB5GftcWGr-7y).
 
 The file should be placed in `models/yolo.h5`
-<br/><br/><br/>
+<br/><br/>
 You can start the server in CLI with:
 ```
 python server.py
