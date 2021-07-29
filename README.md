@@ -5,6 +5,7 @@ Make sure to download the weights for the YOLO v3 model [here](https://drive.goo
 
 The file should be placed in `models/yolo.h5`
 
+
 You can start the server in CLI with:
 ```
 python server.py
