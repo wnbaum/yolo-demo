@@ -4,7 +4,7 @@ import cv2
 from processing import detect_image
 from PIL import Image
 
-st.set_page_config(layout="wide", page_title=app_name, initial_sidebar_state="expanded")
+st.set_page_config(layout="wide", page_title="YOLO Demo", initial_sidebar_state="expanded")
 
 
 st.sidebar.markdown(
