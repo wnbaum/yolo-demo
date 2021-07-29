@@ -1,11 +1,10 @@
+import os 
 import streamlit as st
 import numpy as np
 import cv2
-from processing import detect_image, detect_video
 from PIL import Image
 
 st.set_page_config(layout="wide", page_title="YOLO Demo", initial_sidebar_state="expanded")
-
 
 st.sidebar.markdown(
     f"This [demo](https://github.com/wnbaum/yolo-demo) uses the YOLO v3 network architecture for object detection. Choose an image, edit some parameters, and watch your model update and detect objects! Images sourced from Google Maps."
@@ -16,6 +15,13 @@ st.sidebar.markdown(
 
 st.title("YOLO Demo")
 st.header("This app demonstrates the usage of YOLO for self driving cars and object detection.")
+
+if not os.path.exists("models/yolo_weights.h5"):
+    with st.spinner("Loading model..."):
+        os.system("wget --no-check-certificate -O models/yolo_weights.h5 \"https://storage.googleapis.com/inspirit-ai-data-bucket-1/Data/AI%20Scholars/Sessions%206%20-%2010%20(Projects)/Project%20-%20%20Object%20Detection%20(Autonomous%20Vehicles)/yolo.h5\"")
+        from processing import detect_image
+else:
+    from processing import detect_image
 
 f = st.file_uploader("Upload an Image")
 

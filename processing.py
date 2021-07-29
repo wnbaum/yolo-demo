@@ -8,7 +8,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 anchors = [[[116,90], [156,198], [373,326]], [[30,61], [62,45], [59,119]], [[10,13], [16,30], [33,23]]]
 
-darknet = tf.keras.models.load_model('models/yolo.h5')
+darknet = tf.keras.models.load_model('models/yolo_weights.h5')
 
 labels = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck",
             "boat", "traffic light", "fire hydrant", "stop sign", "parking meter", "bench",
